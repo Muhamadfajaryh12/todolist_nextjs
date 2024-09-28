@@ -3,27 +3,37 @@ import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import NavLink from "../components/NavLink";
-import RootLayout from "../layout";
+
 import axios from "axios";
+import { TodosType } from "../types/todos";
+import Todos from "../components/Todos";
 
 const page = () => {
   const [title, setTitle] = useState<string>("");
   const [data, setData] = useState([]);
+
   const submit = async (e) => {
     e.preventDefault();
     const send_todo = await axios.post("http://localhost:3000/api/todos", {
       title: title,
     });
     console.log(send_todo);
+    fetch();
   };
 
+  const fetch = async () => {
+    const response = await axios.get("http://localhost:3000/api/todos");
+    setData(response.data);
+  };
+
+  const update = async (id: number) => {
+    const response = await axios.put(`http://localhost:3000/api/todos/${id}`);
+    console.log(response);
+  };
   useEffect(() => {
-    const fetch = async () => {
-      const response = await axios.get("http://localhost:3000/api/todos");
-      setData(response.data);
-    };
     fetch();
   }, []);
+
   return (
     <>
       <NavLink />
@@ -40,14 +50,16 @@ const page = () => {
             name="title"
             onChange={(e) => setTitle(e.target.value)}
           />
-          <Button title="Save" type="submit" />
+          <Button title="Save" type="submit" className="bg-orange-300" />
         </form>
         <div className="mt-10">
-          {data.map((item) => (
-            <div className="shadow-md rounded-md w-full p-2 flex justify-between">
-              <p>{item.title}</p>
-              <span>{item.status == 1 ? "Active" : "Done"}</span>
-            </div>
+          {data?.map((item: TodosType) => (
+            <Todos
+              title={item.title}
+              key={item.id}
+              status={item.status}
+              handlePUT={() => update(item.id)}
+            />
           ))}
         </div>
       </div>

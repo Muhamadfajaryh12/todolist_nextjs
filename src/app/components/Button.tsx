@@ -1,9 +1,10 @@
 import React from "react";
+import { ButtonType } from "../types/button";
 
-const Button = ({ title, ...props }) => {
+const Button = ({ className, title, ...props }: ButtonType) => {
   return (
     <button
-      className="bg-orange-300 text-white p-1 rounded-full w-24 font-semibold"
+      className={` text-white p-1 rounded-full w-24 font-semibold ${className}`}
       {...props}
     >
       {title}

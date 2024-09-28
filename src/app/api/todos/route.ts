@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET() {
   try {
     const database = await db();
-    const query = "SELECT * from todo";
+    const query = "SELECT * from todo ORDER BY status ASC";
     const [todos] = await database.query(query);
     return NextResponse.json(todos);
   } catch (error) {
