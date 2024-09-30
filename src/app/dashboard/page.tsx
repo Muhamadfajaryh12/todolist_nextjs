@@ -17,8 +17,7 @@ const page = () => {
     const send_todo = await axios.post("http://localhost:3000/api/todos", {
       title: title,
     });
-    console.log(send_todo);
-    fetch();
+    setData((prevData) => [...prevData, send_todo.data.data[0]]);
   };
 
   const fetch = async () => {
@@ -35,7 +34,7 @@ const page = () => {
     const response = await axios.delete(
       `http://localhost:3000/api/todos/${id}`
     );
-    console.log(response);
+    setData((prevData) => prevData.filter((item) => item.id != id));
   };
   useEffect(() => {
     fetch();

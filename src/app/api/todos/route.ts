@@ -23,10 +23,16 @@ export async function POST(req: NextRequest) {
     };
 
     const query = "INSERT INTO todo (title, status) VALUES (?, ?)";
-    await database.query(query, [data.title, data.status]);
+    const [result] = await database.query(query, [data.title, data.status]);
+    const id = result.insertId;
+    console.log(result);
+    const [rows] = await database.query("SELECT * FROM todo WHERE id = ?", [
+      id,
+    ]);
 
     return NextResponse.json({
       message: "Todo added successfully",
+      data: rows,
     });
   } catch (error) {
     console.log(error);
