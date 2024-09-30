@@ -10,16 +10,24 @@ const Todos = ({ ...props }) => {
       <p className={`${props.status == 1 ? "" : "line-through"}`}>
         {props.title}
       </p>
-      {props.status == 1 ? (
+      <div className="">
+        {props.status == 1 ? (
+          <Button
+            title="Active"
+            type="button"
+            className="bg-red-300"
+            onClick={props.handlePUT}
+          />
+        ) : (
+          <Button title="Done" type="button" className="bg-green-300" />
+        )}{" "}
         <Button
-          title="Active"
+          title="Delete"
           type="button"
-          className="bg-red-300"
-          onClick={props.handlePUT}
+          className="bg-gray-300"
+          onClick={props.handleDelete}
         />
-      ) : (
-        <Button title="Done" type="button" className="bg-green-300" />
-      )}
+      </div>
     </div>
   );
 };

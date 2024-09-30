@@ -30,6 +30,13 @@ const page = () => {
     const response = await axios.put(`http://localhost:3000/api/todos/${id}`);
     console.log(response);
   };
+
+  const deleteHandle = async (id: number) => {
+    const response = await axios.delete(
+      `http://localhost:3000/api/todos/${id}`
+    );
+    console.log(response);
+  };
   useEffect(() => {
     fetch();
   }, []);
@@ -59,6 +66,7 @@ const page = () => {
               key={item.id}
               status={item.status}
               handlePUT={() => update(item.id)}
+              handleDelete={() => deleteHandle(item.id)}
             />
           ))}
         </div>
